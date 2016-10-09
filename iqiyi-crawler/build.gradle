@@ -1,0 +1,26 @@
+ext {
+    if (!project.hasProperty("env")) {
+        println 'property[env] is not setting, using local default' 
+        env = "local"
+    }
+    PUBLISH_GROUP_ID = 'com.youku.hd.crawler'
+    PUBLISH_ARTIFACT_ID = 'iqiyi-crawler'
+    PUBLISH_VERSION = '0.0.1-SNAPSHOT'
+}
+
+sourceSets {
+	main {
+		resources {
+    		println 'property[env] is ' + project['env']
+        	if (project['env'] == 'dev') {
+	    		srcDirs 'src/main/resources', 'src/main/resources/dev'
+	    	} else if (project['env'] == 'test') {
+	     		srcDirs 'src/main/resources', 'src/main/resources/test'
+	    	} else if (project['env'] == 'prod') {
+	       		srcDirs 'src/main/resources', 'src/main/resources/prod'
+	    	} else {
+	    		srcDirs 'src/main/resources'
+	    	}
+		}
+	}
+}

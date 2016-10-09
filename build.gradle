@@ -1,0 +1,72 @@
+ext {
+    springVersion = '4.3.3.RELEASE'
+    PUBLISH_VERSION = '0.1'
+}
+
+buildscript {
+    repositories {
+    	maven { url "http://maven.aliyun.com/nexus/content/groups/public"}
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        jcenter()
+    }
+    
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+	apply plugin: 'application'
+    apply plugin: 'spring-boot'
+    apply plugin: 'eclipse-wtp'
+    apply plugin: 'maven'
+
+    eclipse {
+        classpath {
+            downloadSources=true
+        }
+    }
+
+    repositories {
+        maven {
+             url "http://maven.aliyun.com/nexus/content/groups/public"
+        }
+        maven {
+            url "http://10.108.19.162:8081/nexus/content/repositories/releases"
+        }
+        maven {
+            url "http://10.108.19.162:8081/nexus/content/repositories/snapshots"
+        }
+        mavenCentral();
+        jcenter();
+    }
+
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.7.21'
+        compile 'org.slf4j:jcl-over-slf4j:1.7.21'
+        compile 'org.logback-extensions:logback-ext-spring:0.1.2'
+        compile 'ch.qos.logback:logback-classic:1.1.7'
+        compile 'com.alibaba:fastjson:1.1.30'
+        compile 'org.apache.commons:commons-lang3:3.1'
+        compile 'commons-codec:commons-codec:1.8'
+        compile 'joda-time:joda-time:2.8.1'
+
+    	compile("org.springframework.boot:spring-boot-starter-web")
+    	
+    	//compile("com.github.abola:crawler:1.0.3-1")
+    	compile("com.github.abola:crawler:1.1.0")
+
+    	testCompile("org.springframework.boot:spring-boot-starter-test")
+        testCompile 'junit:junit:4.12'
+    }
+    
+    tasks.withType(JavaCompile) {  
+		options.encoding = "UTF-8"  
+	}
+}
